@@ -1,5 +1,5 @@
 import useClub from 'hooks/useClub'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Button from 'components/ui/button/button'
 import ContentfulRichText from 'components/ui/richTextBox/richTextBox'
@@ -14,12 +14,6 @@ export default function ClubsName() {
 
   const { name } = useParams()
   const club = useClub(name as string)
-
-  useEffect(() => {
-    if (club.loading) return
-
-    console.log(club.data)
-  }, [club.loading])
 
   return (
     <>
@@ -101,11 +95,13 @@ export default function ClubsName() {
         setVisibility={setVisibility}
         plus18
       />
-      <GuestListPopup
-        visibility={guestVisibility}
-        setVisibility={setGuestVisibility}
-        club={club.data as ClubProps}
-      />
+      {club.data && (
+        <GuestListPopup
+          visibility={guestVisibility}
+          setVisibility={setGuestVisibility}
+          club={club.data as ClubProps}
+        />
+      )}
     </>
   )
 }
