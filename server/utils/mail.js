@@ -15,9 +15,7 @@ export const mail = nodemailer.createTransport({
 })
 
 export const sendMail = (to, subject, text) => {
-  mail.sendMail({ from: user, to, subject, text }).then((response) => {
-    return response
-  })
+  return mail.sendMail({ from: user, to, subject, text })
 }
 
 export default mail

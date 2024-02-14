@@ -43,8 +43,8 @@ app.post('/forms/reserveTable', async (req, res) => {
 `
 
   try {
-    sendMail(MAIL_USER, subject, text)
-    sendMail(email, replySubject, replyText)
+    await sendMail(MAIL_USER, subject, text)
+    await sendMail(email, replySubject, replyText)
     res.send('Table Reserved!')
   } catch {
     res.status(400).send('Some error occured, try again later.')
@@ -78,8 +78,8 @@ app.post('/forms/guestList', async (req, res) => {
 `
 
   try {
-    sendMail(MAIL_USER, subject, text)
-    sendMail(email, replySubject, replyText)
+    await sendMail(MAIL_USER, subject, text)
+    await sendMail(email, replySubject, replyText)
 
     return res.send('Guest List Request sent.')
   } catch {
@@ -116,8 +116,8 @@ app.post('/forms/specialRequest', async (req, res) => {
 `
 
   try {
-    sendMail(MAIL_USER, subject, text)
-    sendMail(email, replySubject, replyText)
+    await sendMail(MAIL_USER, subject, text)
+    await sendMail(email, replySubject, replyText)
 
     return res.send('Special Request sent.')
   } catch {
@@ -154,8 +154,8 @@ app.post('/forms/corporate', async (req, res) => {
 `
 
   try {
-    sendMail(MAIL_USER, subject, text)
-    sendMail(email, replySubject, replyText)
+    await sendMail(MAIL_USER, subject, text)
+    await sendMail(email, replySubject, replyText)
 
     return res.send('Corporate Request sent.')
   } catch {
@@ -210,8 +210,8 @@ app.post('/forms/ambassadors', async (req, res) => {
   `
 
   try {
-    sendMail(MAIL_USER, subject, text)
-    sendMail(email, replySubject, replyText)
+    await sendMail(MAIL_USER, subject, text)
+    await sendMail(email, replySubject, replyText)
 
     return res.send('Ambassador Request sent.')
   } catch {
@@ -252,8 +252,8 @@ app.post('/forms/services', async (req, res) => {
   `
 
   try {
-    sendMail(MAIL_USER, subject, text)
-    sendMail(email, replySubject, replyText)
+    await sendMail(MAIL_USER, subject, text)
+    await sendMail(email, replySubject, replyText)
 
     return res.send('Services Interest sent.')
   } catch {
@@ -288,8 +288,8 @@ app.post('/forms/contact', async (req, res) => {
   `
 
   try {
-    sendMail(MAIL_USER, subject, text)
-    sendMail(email, replySubject, replyText)
+    await sendMail(MAIL_USER, subject, text)
+    await sendMail(email, replySubject, replyText)
 
     return res.send('Contact Message sent.')
   } catch {
