@@ -84,16 +84,20 @@ export default function RestaurantsSlug() {
           </div>
         </div>
       </div>
-      <ReservationPopup
-        club={restaurant.data as RestaurantProps}
-        visibility={visibility}
-        setVisibility={setVisibility}
-      />
-      <SpecialRequestPopup
-        visibile={specialVisibility}
-        setVisible={setSpecialVisibility}
-        restaurant={restaurant.data as RestaurantProps}
-      />
+      {!restaurant.loading && (
+        <ReservationPopup
+          club={restaurant.data as RestaurantProps}
+          visibility={visibility}
+          setVisibility={setVisibility}
+        />
+      )}
+      {!restaurant.loading && (
+        <SpecialRequestPopup
+          visibile={specialVisibility}
+          setVisible={setSpecialVisibility}
+          restaurant={restaurant.data as RestaurantProps}
+        />
+      )}
     </>
   )
 }

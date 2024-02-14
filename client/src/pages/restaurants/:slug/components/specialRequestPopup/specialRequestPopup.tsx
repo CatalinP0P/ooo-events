@@ -27,6 +27,7 @@ export default function SpecialRequestPopup({
   visibile,
   setVisible,
 }: specialRequestProps) {
+  console.log(restaurant)
   const interestOptions = ['Guest List', 'Other...']
 
   const [interest, setInterest] = useState(interestOptions[0])
