@@ -1,0 +1,73 @@
+@import '../../../../../_mixin';
+@import '../../../../../_variables';
+
+.guestListPopup {
+  .guestList__header {
+    padding: 0.5rem 1rem;
+
+    @include sm {
+      padding: 1rem 2rem;
+    }
+
+    background-color: $black-10;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .header__title {
+      color: $primary;
+      font-size: 1.25rem;
+      font-weight: 800;
+
+      @include sm {
+        font-size: 2rem;
+      }
+    }
+
+    .header__close {
+      font-size: 1.5rem;
+      transition: all 0.25s ease-out;
+      transform: translateY(10%);
+      cursor: pointer;
+
+      @include sm {
+        font-size: 2rem;
+      }
+
+      &:hover {
+        color: $primary;
+      }
+
+      &:active {
+        opacity: 0.2;
+      }
+    }
+  }
+
+  &__form {
+    padding: 0.5rem 1rem;
+    @include sm {
+      padding: 1rem 2rem;
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .form__button {
+      margin-top: 1rem;
+    }
+
+    .form__text {
+      opacity: 0.6;
+      font-size: 1rem;
+    }
+
+    .form__title {
+      font-size: 1.5rem;
+      color: $primary;
+      font-weight: 700;
+    }
+  }
+}

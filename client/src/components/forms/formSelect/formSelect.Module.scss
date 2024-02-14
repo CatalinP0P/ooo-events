@@ -1,0 +1,94 @@
+@import '../../../_mixin';
+@import '../../../_variables';
+
+.formSelect__container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formSelect {
+  padding: 0.55rem 1rem;
+  border-radius: 0.5rem;
+  background-color: $black-5;
+  border: 1px solid $black-40;
+  color: $black-90;
+  font-size: 1rem;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  label {
+    font-size: 1rem;
+  }
+
+  .formSelect__icon {
+    transition: all 0.25s ease-out;
+    transform: translateY(10%);
+    font-size: 1.5rem;
+    margin: -1rem 0;
+  }
+
+  &.active {
+    border-radius: 0.5rem 0.5rem 0 0;
+
+    .formSelect__icon {
+      rotate: 180deg;
+    }
+  }
+
+  @include sm {
+    padding: 0.82rem 1.25rem;
+  }
+
+  &__options {
+    position: absolute;
+    top: 100%;
+    left: -1px;
+    right: -1px;
+    border-bottom: none;
+    z-index: 100;
+    background-color: $black-5;
+    opacity: 0;
+    border-radius: 0 0 0.5rem 0.5rem;
+    border: 1px solid $black-40;
+    transform: translateY(-100%);
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+
+    label {
+      transition: all 0.25s ease-out;
+      padding: 0.5rem 1rem;
+      @include sm {
+        padding: 0.5rem 1.25rem;
+      }
+
+      &:hover {
+        background-color: $black-10;
+      }
+
+      &:after {
+        opacity: 0.2;
+      }
+    }
+  }
+
+  &__options.active {
+    opacity: 1;
+    transform: translate(0%);
+    pointer-events: auto;
+  }
+}
+
+.formSelect__overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 95;
+}

@@ -1,0 +1,58 @@
+@import '../../../_mixin';
+@import '../../../_variables';
+
+.clubCard__light {
+  background-color: white;
+}
+
+.clubCard__dark {
+  background-color: $black-5;
+}
+
+.clubCard {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease-out;
+
+  &:active {
+    opacity: 0.6;
+  }
+
+  .clubCard__image {
+    height: 0;
+    padding-bottom: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .clubCard__name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 0 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .clubCard__body {
+    padding: 0 0.5rem;
+    padding-bottom: 0.75rem;
+
+    .body__item {
+      display: flex;
+      flex-direction: row;
+      // justify-content: space-between;
+      gap: 0.25rem;
+      width: 100%;
+      font-size: 1.25rem;
+
+      .item__key {
+        opacity: 0.6;
+        transform: translateY(10%);
+      }
+    }
+  }
+}

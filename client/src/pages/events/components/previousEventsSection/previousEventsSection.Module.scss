@@ -1,0 +1,43 @@
+@import '../../../../_variables';
+@import '../../../../_mixin';
+
+.previous__events {
+  padding: 2rem 0;
+
+  .previous__events__container {
+    @include container;
+
+    .previous__events__row {
+      width: 100%;
+      overflow-x: auto;
+      display: flex;
+      gap: 2rem;
+
+      .previous__events__item {
+        width: 20rem;
+        min-width: 20rem;
+        height: 12rem;
+        background-position: center;
+        background-size: cover;
+        filter: grayscale(100%);
+        border-radius: 0.25rem;
+        transition: all 0.25s ease-out;
+        cursor: pointer;
+
+        &:hover {
+          filter: grayscale(40%);
+        }
+
+        .item__date {
+          font-size: 2rem;
+          font-weight: 700;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          color: white;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+}

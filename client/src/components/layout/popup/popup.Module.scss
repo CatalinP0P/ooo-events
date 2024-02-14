@@ -1,0 +1,27 @@
+@import '../../../_mixin';
+@import '../../../_variables';
+
+.popup {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 0.5rem;
+  z-index: 1000;
+  background-color: white;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  max-width: 40rem;
+}
+
+.popup__overlay {
+  z-index: 900;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  background-color: $black;
+  opacity: 0.5;
+}

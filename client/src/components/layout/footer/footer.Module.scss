@@ -1,0 +1,94 @@
+@import '../../../_mixin';
+@import '../../../_variables';
+
+.footer {
+  .footer__container {
+    background-color: $black-10;
+
+    .footer__body {
+      @include container;
+
+      padding: 1.5rem 0;
+      display: grid;
+      gap: 4rem;
+      row-gap: 2rem;
+      grid-template-columns: repeat(2, 1fr);
+
+      @include sm {
+        padding: 3rem 0;
+      }
+
+      @include md {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .footer__item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .item__title {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: $primary;
+
+          @include sm {
+            font-size: 1.5rem;
+          }
+        }
+
+        .item__body {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+          color: $black-80;
+
+          a {
+            text-decoration: none;
+          }
+
+          .item__social {
+            font-size: 2rem;
+            transition: all 0.25s ease-out;
+            color: $black-80;
+
+            &:hover {
+              color: $primary;
+            }
+
+            &:active {
+              opacity: 0.2;
+            }
+          }
+
+          .item__link {
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.125s ease-out;
+
+            &:hover {
+              opacity: 0.6;
+            }
+          }
+        }
+
+        .item__body--horizontal {
+          flex-direction: row;
+        }
+      }
+    }
+
+    .footer__bottom {
+      padding: 1rem 0;
+      background-color: $black-20;
+
+      .footer__bottom__container {
+        @include container;
+
+        .footer__copyright {
+          color: $primary;
+        }
+      }
+    }
+  }
+}

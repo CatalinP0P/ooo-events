@@ -1,0 +1,47 @@
+@import '../../../../_mixin';
+@import '../../../../_variables';
+
+.aboutSection {
+  width: 100%;
+  padding: 2rem 0;
+
+  &__container {
+    @include container;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(1, 1fr);
+
+    @include sm {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $black-90;
+
+    @include sm {
+      font-size: 2.5rem;
+    }
+  }
+
+  &__text {
+    font-weight: 500;
+  }
+
+  &__image {
+    height: 0;
+    border-radius: 0.5rem;
+    padding-bottom: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}

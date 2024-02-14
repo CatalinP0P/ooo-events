@@ -1,0 +1,113 @@
+@import '../../../_mixin';
+@import '../../../_variables';
+
+.header {
+  padding: 0.25rem 0;
+
+  @include sm {
+    padding: 1rem 0;
+  }
+
+  .header__container {
+    @include container;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .header__logo {
+      height: 3rem;
+      cursor: pointer;
+      color: $primary;
+
+      @include sm {
+        height: 5rem;
+      }
+    }
+
+    .header__mobile {
+      @include lg {
+        display: none;
+      }
+
+      &__button {
+        cursor: pointer;
+      }
+
+      .header__mobile__button {
+        font-size: 2rem;
+        color: $primary;
+        transform: translateY(10%);
+      }
+
+      .mobile__body {
+        padding: 1rem 2rem;
+        display: flex;
+        flex-direction: column;
+
+        .mobile__link {
+          font-weight: 700;
+          cursor: pointer;
+          font-size: 1.25rem;
+          padding: 0.5rem 0;
+          opacity: 0.6;
+
+          &:active {
+            color: $primary;
+            opacity: 1;
+          }
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+
+        .mobile__link__active {
+          color: $primary;
+          opacity: 1;
+        }
+      }
+    }
+
+    .header__links {
+      display: none;
+
+      @include lg {
+        display: flex;
+        flex-direction: row;
+        gap: 1.5rem;
+      }
+
+      .header__link {
+        position: relative;
+        font-size: 1.25rem;
+        text-decoration: none;
+        color: $black-70;
+        padding: 0.5rem 0.25rem;
+        cursor: pointer;
+        overflow: hidden;
+        font-weight: 500;
+
+        &::after {
+          position: absolute;
+          content: '';
+          left: 0;
+          bottom: 0;
+          right: 0;
+          height: 2px;
+          background-color: $primary;
+          transition: all 0.25s ease-out;
+          transform: translateX(-100%);
+        }
+
+        &:hover {
+          color: $primary;
+          &::after {
+            transform: translateX(0%);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+@import '../../../_mixin';
+@import '../../../_variables';
+
+.button {
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  border-radius: 0 0 0.5rem 0.5rem;
+  width: 100%;
+}
+
+.button__primary {
+  box-sizing: border-box;
+  background-color: $primary;
+  border: 2px solid $primary;
+  color: white;
+  transition: all 0.125s ease-out;
+
+  &:hover {
+    color: $primary;
+    background-color: transparent;
+  }
+}
+
+.button__rounded {
+  border-radius: 0.5rem;
+}

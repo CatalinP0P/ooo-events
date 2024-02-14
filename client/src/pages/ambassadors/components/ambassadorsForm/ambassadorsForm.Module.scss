@@ -1,0 +1,27 @@
+@import '../../../../_mixin';
+@import '../../../../_variables';
+
+.ambassadorsForm {
+  padding: 2rem 0;
+
+  &__container {
+    padding: 2rem 0;
+    @include container;
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      &__row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .form__button {
+        padding-top: 1rem;
+      }
+    }
+  }
+}

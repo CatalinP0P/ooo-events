@@ -1,0 +1,63 @@
+@import '../../../../_mixin';
+@import '../../../../_variables';
+
+.contactForm {
+  padding: 2rem 0;
+
+  &__container {
+    @include container;
+    padding: 2rem 0;
+
+    .contactForm__info {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1rem;
+      align-items: center;
+      padding-bottom: 2rem;
+
+      @include sm {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .info__item {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background-color: $black-5;
+        color: $primary;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+
+        .item__icon {
+          font-size: 2.5rem;
+          transform: translateY(10%);
+        }
+
+        .item__text {
+          font-weight: 700;
+          pointer-events: none;
+        }
+      }
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      .form__body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .container__row {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+        }
+      }
+    }
+  }
+}

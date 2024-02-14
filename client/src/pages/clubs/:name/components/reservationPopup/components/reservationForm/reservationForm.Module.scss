@@ -1,0 +1,17 @@
+@import '../../../../../../../_mixin';
+@import '../../../../../../../_variables';
+
+.reservation__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  @include sm {
+    padding: 1rem 2rem;
+  }
+
+  .form__button {
+    width: 100%;
+    padding-top: 1.5rem;
+  }
+}

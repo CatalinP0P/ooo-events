@@ -1,0 +1,14 @@
+@import '../../../../_mixin';
+@import '../../../../_variables';
+
+.faqSection {
+  padding: 2rem 0;
+
+  &__container {
+    @include container;
+  }
+
+  &__title {
+    font-weight: 700;
+  }
+}

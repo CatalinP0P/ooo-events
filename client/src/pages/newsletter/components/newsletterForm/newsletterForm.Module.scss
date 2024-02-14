@@ -1,0 +1,23 @@
+@import '../../../../_mixin';
+@import '../../../../_variables';
+
+.newsletterForm {
+  padding: 2rem 0;
+
+  .newsletterForm__container {
+    @include container;
+    max-width: 30rem;
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .form__body {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+    }
+  }
+}

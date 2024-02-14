@@ -1,0 +1,19 @@
+@import '../../../../_mixin';
+@import '../../../../_variables';
+
+.about {
+  padding: 2rem 0;
+  background-color: $black-5;
+
+  .about__container {
+    @include container;
+
+    .about__text {
+      p {
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-align: center;
+      }
+    }
+  }
+}
