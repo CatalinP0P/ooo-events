@@ -1,34 +1,46 @@
 import FormInput from 'components/forms/formInput/formInput'
 import Button from 'components/ui/button/button'
-import React, { ChangeEventHandler, useEffect, useState } from 'react'
+import React, {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from 'react'
 import { ClubProps } from 'types/club'
 import './reservationForm.Module.scss'
 import { formatDateToYYYYMMDD } from 'func/formatDateToYYYYMMDD'
 import { RestaurantProps } from 'types/restaurant'
 import PeopleSelector from 'components/peopleSelector/peopleSelector'
 import {
+  handleFormError,
   reservationFormProps,
   sendReservationForm,
 } from 'services/formsService'
 import { toast } from 'react-toastify'
+import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
 
 export default function ReservationForm({
   club,
 }: {
   club: ClubProps | RestaurantProps
 }) {
+  const [loading, setLoading] = useState(false)
   const [male, setMale] = useState(2)
   const [female, setFemale] = useState(2)
 
-  const [formData, setFormData] = useState({
+  const defaultData = {
     male: 2,
     female: 2,
     spendingAmount: club.minimumSpending != null ? 1000 : null,
     date: formatDateToYYYYMMDD(new Date()),
     name: '',
+    age: undefined,
+    workDepartment: '',
     email: '',
     phone: '',
-  })
+  }
+
+  const [formData, setFormData] = useState(defaultData)
 
   useEffect(() => {
     setFormData((old) => {
@@ -41,24 +53,27 @@ export default function ReservationForm({
     setFormData({ ...formData, [name]: value })
   }
 
-  const onClick = async () => {
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault()
+    setLoading(true)
     console.log(formData)
     const body = { ...formData, date: new Date(formData.date), location: club }
 
     try {
       const response = await sendReservationForm(body as reservationFormProps)
-      console.log(response.data)
-
+      setLoading(false)
       toast.success(response.data)
-
-      //eslint-disable-next-line
-    } catch (err: any) {
-      toast.error('Some error occured')
+    } catch (err) {
+      setLoading(false)
+      handleFormError(err)
     }
+
+    setFormData(defaultData)
   }
 
   return (
-    <div className="reservation__form">
+    <form className="reservation__form" onSubmit={onSubmit}>
+      <LoadingOverlay visible={loading} />
       <PeopleSelector
         female={female}
         male={male}
@@ -73,6 +88,7 @@ export default function ReservationForm({
           value={formData.spendingAmount}
           onChange={onChange}
           placeholder={club?.minimumSpending + '' || '1000'}
+          required
         />
       )}
       <FormInput
@@ -81,6 +97,7 @@ export default function ReservationForm({
         value={formData.date}
         title="Date"
         type="date"
+        required
       />
       <FormInput
         name="name"
@@ -88,6 +105,24 @@ export default function ReservationForm({
         value={formData.name}
         title="Name"
         placeholder="Name"
+        required
+      />
+      <FormInput
+        name="age"
+        onChange={onChange}
+        placeholder="Age"
+        type="number"
+        title="Age"
+        value={formData.age}
+        required
+      />
+      <FormInput
+        name="workDepartment"
+        onChange={onChange}
+        placeholder="Work Department"
+        title="Work Department"
+        value={formData.workDepartment}
+        required
       />
       <FormInput
         name="email"
@@ -95,6 +130,7 @@ export default function ReservationForm({
         title="Email"
         value={formData.email}
         placeholder="Email"
+        required
       />
       <FormInput
         name="phone"
@@ -102,10 +138,11 @@ export default function ReservationForm({
         value={formData.phone}
         title="Phone"
         placeholder="Phone"
+        required
       />
       <div className="form__button">
-        <Button onClick={onClick}>Reserve Table</Button>
+        <Button>Reserve Table</Button>
       </div>
-    </div>
+    </form>
   )
 }

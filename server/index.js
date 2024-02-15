@@ -12,86 +12,122 @@ app.use(cors())
 app.use(express.json())
 
 app.post('/forms/reserveTable', async (req, res) => {
-  const { male, female, date, name, spendingAmount, email, phone, location } =
-    req.body
+  const {
+    male,
+    female,
+    date,
+    name,
+    spendingAmount,
+    email,
+    phone,
+    location,
+    age,
+    workDepartment,
+  } = req.body
 
-  const subject = `OOOEvents - Table Reservation Request from ${name}`
+  try {
+    const subject = `OOOEvents - Table Reservation Request from ${name}`
 
-  const text = `
+    const text = `
     You have received a new Table Reservation Request at ${location.name}, ${location.address}, ${location.postcode}
 
     Information
     Date: ${formatDateToDDMMYYYY(new Date(date))}
     Name: ${name}
+    Age: ${age}
+    Work Department: ${workDepartment}
     For: ${female} Female(s), ${male} Male(s)
     Email: ${email}
     Phone: ${phone}
     Spending Amoung: ${spendingAmount || 'Undefined'}
   `
 
-  const replySubject = `OOOEvents - Table Reservation Confirmation`
-  const replyText = `
+    const replySubject = `OOOEvents - Table Reservation Confirmation`
+    const replyText = `
   Table Reservation Confirmation at ${location.name}, ${location.address}, ${location.postcode}
 
   Information
   Date: ${formatDateToDDMMYYYY(new Date(date))}
   Name: ${name}
+  Age: ${age}
+  Work Department: ${workDepartment}
   For: ${female} Female(s), ${male} Male(s)
   Email: ${email}
   Phone: ${phone}
   Spending Amoung: ${spendingAmount || 'Undefined'}
 `
 
-  try {
-    await sendMail(MAIL_USER, subject, text)
-    await sendMail(email, replySubject, replyText)
-    res.send('Table Reserved!')
+    try {
+      try {
+        await sendMail(email, replySubject, replyText)
+      } catch {
+        return res.status(400).send('Email provided is not valid')
+      }
+      await sendMail(MAIL_USER, subject, text)
+
+      res.send('Your request has been sent. Someone will be in touch with you.')
+    } catch {
+      res.status(400).send('Some error occured, try again later.')
+    }
   } catch {
-    res.status(400).send('Some error occured, try again later.')
+    res.status(400).send('Data provided is not valid')
   }
 })
 
 app.post('/forms/guestList', async (req, res) => {
-  const { club, male, female, date, email, phone, name } = req.body
-
-  const subject = `OOOEvents - Guest List Request from ${name}`
-  const text = `You have received a new Guest List Request at ${club.name}, ${club.address}, ${club.postcode}
+  const { club, male, female, date, email, phone, name, age, workDepartment } =
+    req.body
+  try {
+    const subject = `OOOEvents - Guest List Request from ${name}`
+    const text = `You have received a new Guest List Request at ${club.name}, ${club.address}, ${club.postcode}
 
   Information
   Date: ${formatDateToDDMMYYYY(new Date(date))}
   Name: ${name}
+  Age: ${age}
+  Work Department: ${workDepartment}
   For: ${female} Female(s), ${male} Male(s)
   Email: ${email}
   Phone: ${phone}
   `
 
-  const replySubject = `OOOEvents - Guest List Confirmation`
-  const replyText = `
+    const replySubject = `OOOEvents - Guest List Confirmation`
+    const replyText = `
   Guest List Confirmation at ${club.name}, ${club.address}, ${club.postcode}
 
   Information
   Date: ${formatDateToDDMMYYYY(new Date(date))}
   Name: ${name}
+  Age: ${age}
+  Work Department: ${workDepartment}
   For: ${female} Female(s), ${male} Male(s)
   Email: ${email}
   Phone: ${phone}
 `
 
-  try {
-    await sendMail(MAIL_USER, subject, text)
-    await sendMail(email, replySubject, replyText)
+    try {
+      try {
+        await sendMail(email, replySubject, replyText)
+      } catch {
+        return res.status(400).send('Email provided is not valid')
+      }
+      await sendMail(MAIL_USER, subject, text)
 
-    return res.send('Guest List Request sent.')
+      res.send('Your request has been sent. Someone will be in touch with you.')
+    } catch {
+      return res.status(400).send('Some error occured.')
+    }
   } catch {
-    return res.status(400).send('Some error occured.')
+    return res.status(400).send('Data provided is not valid')
   }
 })
 
 app.post('/forms/specialRequest', async (req, res) => {
   const { restaurant, interest, email, details, name } = req.body
 
-  const subject = `OOOEvents - Special Request from ${name}`
-  const text = `You have received a new Special Request at ${restaurant.name}, ${restaurant.address}, ${restaurant.postcode}\n\n
+  try {
+    const subject = `OOOEvents - Special Request from ${name}`
+    const text = `You have received a new Special Request at ${restaurant.name}, ${restaurant.address}, ${restaurant.postcode}\n\n
 
   Message:
   ${details}
@@ -102,8 +138,8 @@ app.post('/forms/specialRequest', async (req, res) => {
   Interst: ${interest}
   `
 
-  const replySubject = `OOOEvents - Special Request Confirmation`
-  const replyText = `
+    const replySubject = `OOOEvents - Special Request Confirmation`
+    const replyText = `
   Special Request Confirmation at ${restaurant.name}, ${restaurant.address}, ${restaurant.postcode}\n\n
 
   Messsage:
@@ -115,21 +151,29 @@ app.post('/forms/specialRequest', async (req, res) => {
   Interst: ${interest}
 `
 
-  try {
-    await sendMail(MAIL_USER, subject, text)
-    await sendMail(email, replySubject, replyText)
+    try {
+      try {
+        await sendMail(email, replySubject, replyText)
+      } catch {
+        return res.status(400).send('Email provided is not valid')
+      }
+      await sendMail(MAIL_USER, subject, text)
 
-    return res.send('Special Request sent.')
+      res.send('Your request has been sent. Someone will be in touch with you.')
+    } catch {
+      return res.status(400).send('Some error occured')
+    }
   } catch {
-    return res.status(400).send('Some error occured')
+    return res.status(400).send('Data provided is not valid')
   }
 })
 
 app.post('/forms/corporate', async (req, res) => {
   const { email, name, details, interest } = req.body
 
-  const subject = `OOOEvents - Corporate Request from ${name}`
-  const text = `You have received a new Corporate Requst about ${interest}
+  try {
+    const subject = `OOOEvents - Corporate Request from ${name}`
+    const text = `You have received a new Corporate Requst about ${interest}
 
   Message:
   ${details}
@@ -140,8 +184,8 @@ app.post('/forms/corporate', async (req, res) => {
   Interst: ${interest}
   `
 
-  const replySubject = `OOOEvents - Corporate Request Confirmation`
-  const replyText = `
+    const replySubject = `OOOEvents - Corporate Request Confirmation`
+    const replyText = `
   Corporate Request Confirmation about ${interest}
 
   Messsage:
@@ -153,13 +197,20 @@ app.post('/forms/corporate', async (req, res) => {
   Interst: ${interest}
 `
 
-  try {
-    await sendMail(MAIL_USER, subject, text)
-    await sendMail(email, replySubject, replyText)
+    try {
+      try {
+        await sendMail(email, replySubject, replyText)
+      } catch {
+        return res.status(400).send('Email provided is not valid')
+      }
+      await sendMail(MAIL_USER, subject, text)
 
-    return res.send('Corporate Request sent.')
+      res.send('Your request has been sent. Someone will be in touch with you.')
+    } catch {
+      return res.status(400).send('Some error occured')
+    }
   } catch {
-    return res.status(400).send('Some error occured')
+    return res.status(400).send('Data provided is not valid')
   }
 })
 
@@ -176,8 +227,9 @@ app.post('/forms/ambassadors', async (req, res) => {
     linkedin,
   } = req.body
 
-  const subject = `OOOEvents - Ambassador Request from ${name}`
-  const text = `You have received a new Ambassador Request
+  try {
+    const subject = `OOOEvents - Ambassador Request from ${name}`
+    const text = `You have received a new Ambassador Request
 
   
     Information
@@ -192,8 +244,8 @@ app.post('/forms/ambassadors', async (req, res) => {
     Linkedin: ${linkedin}
     `
 
-  const replySubject = `OOOEvents - Ambassador Request Confirmation`
-  const replyText = `
+    const replySubject = `OOOEvents - Ambassador Request Confirmation`
+    const replyText = `
     Corporate Request Confirmation
   
   
@@ -209,26 +261,34 @@ app.post('/forms/ambassadors', async (req, res) => {
     Linkedin: ${linkedin}
   `
 
-  try {
-    await sendMail(MAIL_USER, subject, text)
-    await sendMail(email, replySubject, replyText)
+    try {
+      try {
+        await sendMail(email, replySubject, replyText)
+      } catch {
+        return res.status(400).send('Email provided is not valid')
+      }
+      await sendMail(MAIL_USER, subject, text)
 
-    return res.send('Ambassador Request sent.')
+      res.send('Your request has been sent. Someone will be in touch with you.')
+    } catch {
+      return res.status(400).send('Some error occured')
+    }
   } catch {
-    return res.status(400).send('Some error occured')
+    return res.status(400).send('Data provided is not valid')
   }
 })
 
 app.post('/forms/services', async (req, res) => {
   const { interest, name, email, details } = req.body
 
-  let interestString = ''
-  interest.forEach((item) => {
-    interestString += ' ' + item
-  })
+  try {
+    let interestString = ''
+    interest.forEach((item) => {
+      interestString += ' ' + item
+    })
 
-  const subject = `OOOEvents - Services Interest from ${name}`
-  const text = `You have received a new Services Interest
+    const subject = `OOOEvents - Services Interest from ${name}`
+    const text = `You have received a new Services Interest
 
     Message:
     ${details}
@@ -239,8 +299,8 @@ app.post('/forms/services', async (req, res) => {
     Email: ${email}
     `
 
-  const replySubject = `OOOEvents - Services Interest Confirmation`
-  const replyText = `Services Interest Confirmation
+    const replySubject = `OOOEvents - Services Interest Confirmation`
+    const replyText = `Services Interest Confirmation
   
   Message:
   ${details}
@@ -251,21 +311,29 @@ app.post('/forms/services', async (req, res) => {
   Email: ${email}
   `
 
-  try {
-    await sendMail(MAIL_USER, subject, text)
-    await sendMail(email, replySubject, replyText)
+    try {
+      try {
+        await sendMail(email, replySubject, replyText)
+      } catch {
+        return res.status(400).send('Email provided is not valid')
+      }
+      await sendMail(MAIL_USER, subject, text)
 
-    return res.send('Services Interest sent.')
+      return res.send('Services Interest sent.')
+    } catch {
+      return res.status(400).send('Some error occured')
+    }
   } catch {
-    return res.status(400).send('Some error occured')
+    return res.status(400).send('Data provided is not valid')
   }
 })
 
 app.post('/forms/contact', async (req, res) => {
-  const { name, email, details } = req.body
+  const { name, email, details, age, workDepartment } = req.body
 
-  const subject = `OOOEvents - Contact Message from ${name}`
-  const text = `You have received a new Contact message
+  try {
+    const subject = `OOOEvents - Contact Message from ${name}`
+    const text = `You have received a new Contact message
 
     Message:
     ${details}
@@ -273,27 +341,38 @@ app.post('/forms/contact', async (req, res) => {
     Information
     Name: ${name}
     Email: ${email}
+    Age: ${age}
+    Work Department: ${workDepartment}1
     `
 
-  const replySubject = `OOOEvents - Contact Message Confirmation`
-  const replyText = `Contact Message Confirmation
+    const replySubject = `OOOEvents - Contact Message Confirmation`
+    const replyText = `Contact Message Confirmation
 
   
-  Message:
-  ${details}
-  
-  Information
-  Name: ${name}
-  Email: ${email}
+    Message:
+    ${details}
+    
+    Information
+    Name: ${name}
+    Email: ${email}
+    Age: ${age}
+    Work Department: ${workDepartment}
   `
 
-  try {
-    await sendMail(MAIL_USER, subject, text)
-    await sendMail(email, replySubject, replyText)
+    try {
+      try {
+        await sendMail(email, replySubject, replyText)
+      } catch (err) {
+        return res.status(400).send('Email provided is not valid')
+      }
+      await sendMail(MAIL_USER, subject, text)
 
-    return res.send('Contact Message sent.')
+      return res.send('Contact Message sent.')
+    } catch {
+      return res.status(400).send('Some error occured')
+    }
   } catch {
-    return res.status(400).send('Some error occured')
+    return res.status(400).send('Data Provided is not valid')
   }
 })
 

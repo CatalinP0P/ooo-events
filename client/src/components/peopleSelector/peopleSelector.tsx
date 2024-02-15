@@ -57,7 +57,7 @@ export default function PeopleSelector({
         </div>
         <div className="people__right">
           <div className="people__item">
-            <div className="item__icon" style={{ color: 'blue' }}>
+            <div className="item__icon">
               <Male fontSize="inherit" />
             </div>
 
@@ -75,7 +75,7 @@ export default function PeopleSelector({
           </div>
 
           <div className="people__item">
-            <div className="item__icon" style={{ color: 'pink' }}>
+            <div className="item__icon">
               <Female fontSize="inherit" />
             </div>
             <div className="item__body">

@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
+import React, { FormEventHandler, useState } from 'react'
 import './corporateForm.Module.scss'
 import SectionTitle from 'components/ui/sectionTitle/sectionTitle'
 import Button from 'components/ui/button/button'
 import FormSelect from 'components/forms/formSelect/formSelect'
 import FormInput from 'components/forms/formInput/formInput'
 import FormTextArea from 'components/forms/formTextArea/formTextArea'
-import { sendCorporateForm } from 'services/formsService'
+import { handleFormError, sendCorporateForm } from 'services/formsService'
 import { toast } from 'react-toastify'
+import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
 
 export default function CorporateForm() {
+  const [loading, setLoading] = useState(false)
+
   const options = [
     'Guest List',
     'Table Service',
@@ -25,13 +28,17 @@ export default function CorporateForm() {
   const [name, setName] = useState('')
   const [details, setDetails] = useState('')
 
-  const onSubmit = () => {
+  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
+    setLoading(true)
     sendCorporateForm({ interest: option, email, name, details })
       .then((response) => {
+        setLoading(false)
         toast.success(response.data)
       })
-      .catch(() => {
-        toast.error('Some error occured.')
+      .catch((err) => {
+        setLoading(false)
+        handleFormError(err)
       })
 
     setOption(options[0])
@@ -42,6 +49,7 @@ export default function CorporateForm() {
 
   return (
     <div className="corporateForm">
+      <LoadingOverlay visible={loading} />
       <SectionTitle title="Get in Touch" />
       <div className="corporateForm__container">
         <div className="container__item">
@@ -61,7 +69,7 @@ export default function CorporateForm() {
 
         <div className="container__item">
           <label className="item__title">Request Form</label>
-          <div className="corporateForm">
+          <form className="corporateForm" onSubmit={onSubmit}>
             <div className="corporateForm__body">
               <FormSelect
                 title="Interest"
@@ -75,12 +83,14 @@ export default function CorporateForm() {
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
                 <FormInput
                   title="Name"
                   placeholder="Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  required
                 />
               </div>
               <FormTextArea
@@ -88,12 +98,13 @@ export default function CorporateForm() {
                 placeholder="Details"
                 value={details}
                 onChange={(e) => setDetails(e.target.value)}
+                required
               />
             </div>
             <div>
-              <Button onClick={onSubmit}>Send</Button>
+              <Button>Send</Button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

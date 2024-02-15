@@ -13,9 +13,14 @@ import './guestListPopup.Module.scss'
 import PeopleSelector from 'components/peopleSelector/peopleSelector'
 import { CloseRounded } from '@mui/icons-material'
 import Button from 'components/ui/button/button'
-import { guestFormProps, sendGuestListForm } from 'services/formsService'
+import {
+  guestFormProps,
+  handleFormError,
+  sendGuestListForm,
+} from 'services/formsService'
 import { formatDateToYYYYMMDD } from 'func/formatDateToYYYYMMDD'
 import { toast } from 'react-toastify'
+import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
 
 interface guestListProps {
   visibility: boolean
@@ -28,7 +33,7 @@ export default function GuestListPopup({
   setVisibility,
   club,
 }: guestListProps) {
-  console.log(club)
+  const [loading, setLoading] = useState(false)
   const [male, setMale] = useState(2)
   const [female, setFemale] = useState(2)
 
@@ -40,6 +45,8 @@ export default function GuestListPopup({
     email: '',
     phone: '',
     club: club,
+    age: undefined,
+    workDepartment: '',
   })
 
   useEffect(() => {
@@ -60,18 +67,22 @@ export default function GuestListPopup({
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
+    setLoading(true)
 
     sendGuestListForm(formData)
       .then((response) => {
+        setLoading(false)
         toast.success(response.data)
       })
-      .catch(() => {
-        toast.error('Some error occured.')
+      .catch((err) => {
+        setLoading(false)
+        handleFormError(err)
       })
   }
 
   return (
     <Popup visibility={visibility} setVisibility={setVisibility}>
+      <LoadingOverlay visible={loading} />
       <div className="guestListPopup">
         <div className="guestList__header">
           <label className="header__title">Guest List</label>
@@ -92,6 +103,7 @@ export default function GuestListPopup({
             name="date"
             value={formData.date}
             onChange={onChange}
+            required
           />
           <FormInput
             title="Name"
@@ -99,6 +111,7 @@ export default function GuestListPopup({
             name="name"
             value={formData.name}
             onChange={onChange}
+            required
           />
           <FormInput
             title="Email"
@@ -106,6 +119,24 @@ export default function GuestListPopup({
             name="email"
             value={formData.email}
             onChange={onChange}
+            required
+          />
+          <FormInput
+            name="age"
+            title="Age"
+            placeholder="Age"
+            value={formData.age}
+            onChange={onChange}
+            required
+            type="number"
+          />
+          <FormInput
+            name="workDepartment"
+            title="Work Department"
+            placeholder="Work Department"
+            value={formData.workDepartment}
+            onChange={onChange}
+            required
           />
           <FormInput
             title="Phone"
@@ -113,6 +144,7 @@ export default function GuestListPopup({
             name="phone"
             value={formData.phone}
             onChange={onChange}
+            required
           />
 
           <p className="form__text">

@@ -1,12 +1,17 @@
-import SectionTitle from 'components/ui/sectionTitle/sectionTitle'
 import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
 import './ambassadorsForm.Module.scss'
 import FormInput from 'components/forms/formInput/formInput'
 import Button from 'components/ui/button/button'
-import { ambassadorFormProps, sendAmbassadorForm } from 'services/formsService'
+import {
+  ambassadorFormProps,
+  handleFormError,
+  sendAmbassadorForm,
+} from 'services/formsService'
 import { toast } from 'react-toastify'
+import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
 
 export default function AmbassadorsForm() {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState<ambassadorFormProps>({
     title: '',
     email: '',
@@ -27,13 +32,16 @@ export default function AmbassadorsForm() {
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
+    setLoading(true)
 
     sendAmbassadorForm(data)
       .then((response) => {
+        setLoading(false)
         toast.success(response.data)
       })
-      .catch(() => {
-        toast.error('Some error occured.')
+      .catch((err) => {
+        setLoading(false)
+        handleFormError(err)
       })
 
     setData({
@@ -51,11 +59,7 @@ export default function AmbassadorsForm() {
 
   return (
     <div className="ambassadorsForm">
-      <SectionTitle
-        title="Become one of the Out Of Office Ambassadors"
-        subtitle="Have a big network within IT, Sales, Media, Finance, Bio Tech, Insurance, or similar industries? Would you like VIP Access to our events? Look this way!"
-      />
-
+      <LoadingOverlay visible={loading} />
       <div className="ambassadorsForm__container">
         <form className="form" onSubmit={onSubmit}>
           <FormInput
@@ -63,6 +67,7 @@ export default function AmbassadorsForm() {
             placeholder="Name"
             name="name"
             value={data.name}
+            required
             onChange={onChange}
           />
           <FormInput
@@ -71,6 +76,7 @@ export default function AmbassadorsForm() {
             name="email"
             value={data.email}
             onChange={onChange}
+            required
           />
           <div className="form__row">
             <FormInput
@@ -79,13 +85,15 @@ export default function AmbassadorsForm() {
               name="title"
               value={data.title}
               onChange={onChange}
+              required
             />
             <FormInput
-              title="Age ( Must be 23+ to Join )"
+              title="Age ( Min 23 )"
               placeholder="Age"
               name="age"
               value={data.age}
               onChange={onChange}
+              required
             />
           </div>
           <div className="form__row">
@@ -95,6 +103,7 @@ export default function AmbassadorsForm() {
               name="employer"
               value={data.employer}
               onChange={onChange}
+              required
             />
             <FormInput
               title="Your Industry"
@@ -102,6 +111,7 @@ export default function AmbassadorsForm() {
               name="industry"
               value={data.industry}
               onChange={onChange}
+              required
             />
           </div>
           <FormInput

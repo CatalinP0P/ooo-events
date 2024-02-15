@@ -1,21 +1,25 @@
 @import '../../../../_mixin';
 @import '../../../../_variables';
 
-.allClubs {
+.ambassadors__hero {
   padding: 2rem 0;
+  background-color: $black-5;
 
-  .allClubs__container {
+  .ambassadors__hero__container {
     @include container;
     display: grid;
-    gap: 2rem;
     grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
 
     @include sm {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    @include lg {
-      grid-template-columns: repeat(4, 1fr);
+    .ambassadors__hero__image {
+      background-position: center;
+      background-size: cover;
+      height: 0;
+      padding-bottom: 60%;
     }
   }
 }

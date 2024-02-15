@@ -1,13 +1,15 @@
 import Button from 'components/ui/button/button'
-import React, { ChangeEventHandler, useState } from 'react'
+import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
 import './servicesForm.Module.scss'
 import FormInput from 'components/forms/formInput/formInput'
 import FormTextArea from 'components/forms/formTextArea/formTextArea'
 import SectionTitle from 'components/ui/sectionTitle/sectionTitle'
-import { sendServicesForm } from 'services/formsService'
+import { handleFormError, sendServicesForm } from 'services/formsService'
 import { toast } from 'react-toastify'
+import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
 
 export default function ServicesForm() {
+  const [loading, setLoading] = useState(false)
   const [interest, setInterest] = useState<string[]>([])
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -69,13 +71,18 @@ export default function ServicesForm() {
     }
   }
 
-  const onSubmit = () => {
+  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
+
+    setLoading(true)
     sendServicesForm({ interest, name, email, details })
       .then((response) => {
+        setLoading(false)
         toast.success(response.data)
       })
-      .catch(() => {
-        toast.error('Some error occured')
+      .catch((err) => {
+        setLoading(false)
+        handleFormError(err)
       })
 
     setInterest([])
@@ -86,6 +93,7 @@ export default function ServicesForm() {
 
   return (
     <div className="serviceForm">
+      <LoadingOverlay visible={loading} />
       <SectionTitle
         title="Request Service"
         subtitle="Make your party stand out with us"
@@ -127,7 +135,7 @@ export default function ServicesForm() {
           </div>
         </div>
 
-        <div className="serviceForm__body">
+        <form className="serviceForm__body" onSubmit={onSubmit}>
           <div className="body__header">
             <FormInput
               name="name"
@@ -135,6 +143,7 @@ export default function ServicesForm() {
               title="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
             />
             <FormInput
               name="email"
@@ -142,6 +151,7 @@ export default function ServicesForm() {
               title="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
             <FormTextArea
               name="Detail"
@@ -149,12 +159,13 @@ export default function ServicesForm() {
               placeholder="Details"
               value={details}
               onChange={(e) => setDetails(e.target.value)}
+              required
             />
           </div>
           <div>
-            <Button onClick={onSubmit}>Send</Button>
+            <Button>Send</Button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   )

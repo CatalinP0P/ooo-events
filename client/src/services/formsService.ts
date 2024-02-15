@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import { ClubProps } from 'types/club'
 import { RestaurantProps } from 'types/restaurant'
 import api from 'utils/api'
@@ -25,6 +26,8 @@ export interface guestFormProps {
   email: ''
   phone: ''
   club: ClubProps
+  age: number | undefined
+  workDepartment: string
 }
 
 export const sendGuestListForm = (data: guestFormProps) => {
@@ -89,4 +92,12 @@ interface contactFormProps {
 
 export const sendContactForm = (data: contactFormProps) => {
   return api.post('/forms/contact', data)
+}
+
+//eslint-disable-next-line
+export const handleFormError = (err: any) => {
+  if (err.response == null) {
+    toast.error('Failed to comunicate with the server')
+  }
+  toast.error(err.response.data)
 }
