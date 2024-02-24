@@ -3,10 +3,12 @@
 
 .section__title {
   width: 100%;
+  padding: 1rem 0;
 
   @include sm {
-    padding: 2rem 0;
+    padding: 3rem 0;
   }
+
   position: relative;
 
   .section__title__background {

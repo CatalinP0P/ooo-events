@@ -9,6 +9,7 @@ import {
 } from 'services/formsService'
 import { toast } from 'react-toastify'
 import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
+import FormTermsAndCo from 'components/forms/formTermsAndCo/formTermsAndCo'
 
 export default function AmbassadorsForm() {
   const [loading, setLoading] = useState(false)
@@ -103,7 +104,6 @@ export default function AmbassadorsForm() {
               name="employer"
               value={data.employer}
               onChange={onChange}
-              required
             />
             <FormInput
               title="Your Industry"
@@ -111,7 +111,6 @@ export default function AmbassadorsForm() {
               name="industry"
               value={data.industry}
               onChange={onChange}
-              required
             />
           </div>
           <FormInput
@@ -135,6 +134,8 @@ export default function AmbassadorsForm() {
             value={data.linkedin}
             onChange={onChange}
           />
+          <FormTermsAndCo />
+
           <div className="form__button">
             <Button>Send</Button>
           </div>

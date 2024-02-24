@@ -94,6 +94,16 @@ export const sendContactForm = (data: contactFormProps) => {
   return api.post('/forms/contact', data)
 }
 
+export interface newsletterFormProps {
+  email: string
+  age: number
+  workDepartment: string
+}
+
+export const sendNewsletterForm = (data: newsletterFormProps) => {
+  return api.post('/forms/newsletter', data)
+}
+
 //eslint-disable-next-line
 export const handleFormError = (err: any) => {
   if (err.response == null) {

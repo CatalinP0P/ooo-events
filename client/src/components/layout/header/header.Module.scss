@@ -22,7 +22,8 @@
       color: $primary;
 
       @include sm {
-        height: 5rem;
+        height: 6rem;
+        margin: -1rem 0;
       }
     }
 

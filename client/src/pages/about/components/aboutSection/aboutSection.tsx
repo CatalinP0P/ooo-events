@@ -1,30 +1,26 @@
 import React from 'react'
-import eventImage from 'assets/images/event1.jpeg'
 import './aboutSection.Module.scss'
+import useAboutPage from 'hooks/useAboutPage'
+import ContentfulRichText from 'components/ui/richTextBox/richTextBox'
 
 export default function AboutSection() {
+  const { data, loading } = useAboutPage()
+
+  if (loading) return <></>
+
   return (
     <div className="aboutSection">
       <div>
         <div className="aboutSection__container">
           <div className="aboutSection__body">
-            <h3 className="aboutSection__title">Out Of Office Events</h3>
+            <h3 className="aboutSection__title">{data?.aboutTitle}</h3>
             <label className="aboutSection__text">
-              {`Out Of Office Evens aren't just parties; they're experiences designed
-          to break the monotony of the workweek. With a fresh theme unveiled
-          each drop, attendees can anticipate a dynamic atmosphere that
-          transcends traditional networking. From masquerade balls to retro
-          throwbacks, every gathering promises a new adventure. We specialize in curating parties or tailor-made events for
-          discerning corporate employees and working individuals seeking
-          exceptional nights out in the vibrant heart of London. Our mission is
-          to transform traditional “after work” gatherings into memorable
-          adventures, providing an escape from the routine and a gateway to
-          unparalleled entertainment.`}
+              {<ContentfulRichText content={data?.aboutDescription} />}
             </label>
           </div>
           <div
             className="aboutSection__image"
-            style={{ backgroundImage: `url(${eventImage})` }}
+            style={{ backgroundImage: `url(${data?.aboutImage})` }}
           ></div>
         </div>
       </div>

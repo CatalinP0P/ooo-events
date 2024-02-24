@@ -1,8 +1,6 @@
 import {
-  Female,
   KeyboardArrowLeft,
   KeyboardArrowRight,
-  Male,
   People,
 } from '@mui/icons-material'
 import React, { Dispatch, SetStateAction } from 'react'
@@ -58,7 +56,7 @@ export default function PeopleSelector({
         <div className="people__right">
           <div className="people__item">
             <div className="item__icon">
-              <Male fontSize="inherit" />
+              <label>Male</label>
             </div>
 
             <div className="item__body">
@@ -76,7 +74,7 @@ export default function PeopleSelector({
 
           <div className="people__item">
             <div className="item__icon">
-              <Female fontSize="inherit" />
+              <label>Female</label>
             </div>
             <div className="item__body">
               <div className="item__body">

@@ -8,9 +8,15 @@ import { Mail, WhatsApp } from '@mui/icons-material'
 import { handleFormError, sendContactForm } from 'services/formsService'
 import { toast } from 'react-toastify'
 import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
+import FormTermsAndCo from 'components/forms/formTermsAndCo/formTermsAndCo'
+import useWebsiteInfo from 'hooks/useWebsiteInfo'
+import useContactPage from 'hooks/useContactPage'
 
 export default function ContactForm() {
+  const { data } = useWebsiteInfo()
   const [loading, setLoading] = useState(false)
+
+  const pageInfo = useContactPage()
 
   interface formDataProps {
     name: string
@@ -19,9 +25,6 @@ export default function ContactForm() {
     age: number | undefined
     workDepartment: string
   }
-
-  const phone = '(1234) 567 890'
-  const mail = 'contact@oooevents.com'
 
   const defaultData = {
     name: '',
@@ -57,27 +60,26 @@ export default function ContactForm() {
     setFormData(defaultData)
   }
 
+  if (pageInfo.loading) return <></>
+
   return (
     <div className="contactForm">
       <LoadingOverlay visible={loading} />
-      <SectionTitle
-        title="Get In Touch"
-        subtitle="Contact us for any question"
-      />
+      <SectionTitle title="Get In Touch" subtitle={pageInfo.data?.subtitle} />
       <div className="contactForm__container">
         <div className="contactForm__info">
-          <a className="info__item" href={'tel:+' + phone}>
+          <a className="info__item" href={'tel:+' + data?.phoneNumber}>
             <div className="item__icon">
               <WhatsApp fontSize="inherit" />
             </div>
-            <label className="item__text">{phone}</label>
+            <label className="item__text">{data?.phoneNumber}</label>
           </a>
 
-          <a className="info__item" href={'mailto:' + mail}>
+          <a className="info__item" href={'mailto:' + data?.email}>
             <div className="item__icon">
               <Mail fontSize="inherit" />
             </div>
-            <label className="item__text">{mail}</label>
+            <label className="item__text">{data?.email}</label>
           </a>
         </div>
         <form className="form" onSubmit={onSubmit}>
@@ -126,6 +128,7 @@ export default function ContactForm() {
               onChange={onChange}
               required
             />
+            <FormTermsAndCo />
           </div>
           <div>
             <Button>Send</Button>

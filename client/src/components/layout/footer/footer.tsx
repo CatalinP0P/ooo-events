@@ -2,8 +2,10 @@ import React from 'react'
 import './footer.Module.scss'
 import { Facebook, Instagram, LinkedIn } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
+import useWebsiteInfo from 'hooks/useWebsiteInfo'
 
 export default function Footer() {
+  const { data } = useWebsiteInfo()
   const navigate = useNavigate()
 
   return (
@@ -28,8 +30,18 @@ export default function Footer() {
           <div className="footer__item">
             <h4 className="item__title">Legal</h4>
             <div className="item__body">
-              <label className="item__link">T&Cs</label>
-              <label className="item__link">Privacy Policy</label>
+              <label
+                onClick={() => navigate('/termsAndConditions')}
+                className="item__link"
+              >
+                T&Cs
+              </label>
+              <label
+                onClick={() => navigate('/privacyPolicy')}
+                className="item__link"
+              >
+                Privacy Policy
+              </label>
             </div>
           </div>
 
@@ -51,25 +63,36 @@ export default function Footer() {
           <div className="footer__item">
             <h4 className="item__title">Find us</h4>
             <div className="item__body item__body--horizontal">
-              <a
-                className="item__social"
-                target="_blank"
-                href="https://www.facebook.com/profile.php?id=61556215591565&mibextid=ZbWKwL"
-                rel="noreferrer"
-              >
-                <Instagram fontSize="inherit" />
-              </a>
-              <a className="item__social" target="_blank">
-                <Facebook fontSize="inherit" />
-              </a>
-              <a
-                className="item__social"
-                target="_blank"
-                href="https://www.linkedin.com/in/out-of-office-events-bb94582b1/"
-                rel="noreferrer"
-              >
-                <LinkedIn fontSize="inherit" />
-              </a>
+              {data?.instagram != null && (
+                <a
+                  className="item__social"
+                  target="_blank"
+                  href={data.instagram}
+                  rel="noreferrer"
+                >
+                  <Instagram fontSize="inherit" />
+                </a>
+              )}
+              {data?.instagram != null && (
+                <a
+                  className="item__social"
+                  target="_blank"
+                  rel="noreferrer"
+                  href={data.instagram}
+                >
+                  <Facebook fontSize="inherit" />
+                </a>
+              )}
+              {data?.linkedin != null && (
+                <a
+                  className="item__social"
+                  target="_blank"
+                  href={data.linkedin}
+                  rel="noreferrer"
+                >
+                  <LinkedIn fontSize="inherit" />
+                </a>
+              )}
             </div>
           </div>
         </div>

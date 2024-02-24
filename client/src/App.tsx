@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from 'components/layout/layout/layout'
 import Home from 'pages/home/home'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import About from 'pages/about/about'
 import Events from 'pages/events/events'
 import Clubs from 'pages/clubs/clubs'
@@ -14,10 +14,12 @@ import Contact from 'pages/contact/contact'
 import Faq from 'pages/faq/faq'
 import Newsletter from 'pages/newsletter/newsletter'
 import Ambassadors from 'pages/ambassadors/ambassadors'
+import TermsAndConditions from 'pages/termsAndConditions/termsAndConditions'
+import PolicyPrivacy from 'pages/policyPrivacy/policyPrivacy'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -33,8 +35,10 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/newsletter" element={<Newsletter />} />
+          <Route path="/termsAndConditions" element={<TermsAndConditions />} />
+          <Route path="/privacyPolicy" element={<PolicyPrivacy />} />
         </Routes>
       </Layout>
-    </BrowserRouter>
+    </HashRouter>
   )
 }

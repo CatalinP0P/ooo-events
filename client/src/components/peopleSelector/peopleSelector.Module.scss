@@ -44,11 +44,12 @@
     .people__item {
       display: flex;
       flex-direction: row;
+      justify-content: center;
       align-items: center;
 
       .item__icon {
         font-size: 2rem;
-        transform: translateY(10%);
+        transform: translateY(-10%);
       }
 
       .item__body {

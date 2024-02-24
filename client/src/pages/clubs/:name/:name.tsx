@@ -93,7 +93,6 @@ export default function ClubsName() {
         club={club.data as ClubProps}
         visibility={visibility}
         setVisibility={setVisibility}
-        plus18
       />
       {club.data && (
         <GuestListPopup

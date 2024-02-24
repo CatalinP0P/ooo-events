@@ -1,4 +1,4 @@
-import React, { FormEventHandler, useState } from 'react'
+import React, { FormEventHandler, useEffect, useState } from 'react'
 import './corporateForm.Module.scss'
 import SectionTitle from 'components/ui/sectionTitle/sectionTitle'
 import Button from 'components/ui/button/button'
@@ -8,22 +8,24 @@ import FormTextArea from 'components/forms/formTextArea/formTextArea'
 import { handleFormError, sendCorporateForm } from 'services/formsService'
 import { toast } from 'react-toastify'
 import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
+import FormTermsAndCo from 'components/forms/formTermsAndCo/formTermsAndCo'
+import useCorporatePage from 'hooks/useCorporatePage'
 
 export default function CorporateForm() {
+  const pageData = useCorporatePage()
+
   const [loading, setLoading] = useState(false)
 
-  const options = [
-    'Guest List',
-    'Table Service',
-    'Vip Table Service',
-    'Full Vip Area Booking',
-    'Members Room',
-    'Full Venue Floor Take-Over',
-    'Full Venue Take-Over',
-    'Other...',
-  ]
+  const [option, setOption] = useState(
+    pageData.data?.whatWeOffer ? pageData.data?.whatWeOffer[0] : '',
+  )
 
-  const [option, setOption] = useState(options[0])
+  useEffect(() => {
+    if (loading) return
+
+    setOption(pageData.data?.whatWeOffer[0] as string)
+  }, [pageData.loading])
+
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [details, setDetails] = useState('')
@@ -41,11 +43,13 @@ export default function CorporateForm() {
         handleFormError(err)
       })
 
-    setOption(options[0])
+    setOption(pageData.data?.whatWeOffer ? pageData.data?.whatWeOffer[0] : '')
     setEmail('')
     setName('')
     setDetails('')
   }
+
+  if (pageData.loading) return <></>
 
   return (
     <div className="corporateForm">
@@ -56,7 +60,7 @@ export default function CorporateForm() {
           <label className="item__title">What we can offer?</label>
           <div className="whatweoffer">
             <div className="whatweoffer__body">
-              {options.map((option) => {
+              {pageData.data?.whatWeOffer?.map((option) => {
                 return (
                   <label key={option} className="body__item">
                     • {option}
@@ -73,7 +77,7 @@ export default function CorporateForm() {
             <div className="corporateForm__body">
               <FormSelect
                 title="Interest"
-                options={options}
+                options={pageData.data?.whatWeOffer}
                 value={option}
                 setValue={setOption}
               />
@@ -100,6 +104,7 @@ export default function CorporateForm() {
                 onChange={(e) => setDetails(e.target.value)}
                 required
               />
+              <FormTermsAndCo />
             </div>
             <div>
               <Button>Send</Button>

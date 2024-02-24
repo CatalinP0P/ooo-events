@@ -21,6 +21,7 @@ import {
 import { formatDateToYYYYMMDD } from 'func/formatDateToYYYYMMDD'
 import { toast } from 'react-toastify'
 import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
+import FormTermsAndCo from 'components/forms/formTermsAndCo/formTermsAndCo'
 
 interface guestListProps {
   visibility: boolean
@@ -127,7 +128,6 @@ export default function GuestListPopup({
             placeholder="Age"
             value={formData.age}
             onChange={onChange}
-            required
             type="number"
           />
           <FormInput
@@ -146,6 +146,8 @@ export default function GuestListPopup({
             onChange={onChange}
             required
           />
+
+          <FormTermsAndCo />
 
           <p className="form__text">
             Guestlist does not guarantee entry. Make sure you read the T&Cs and

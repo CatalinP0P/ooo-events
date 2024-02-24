@@ -16,6 +16,7 @@ import Button from 'components/ui/button/button'
 import { handleFormError, sendSpecialRequestForm } from 'services/formsService'
 import { toast } from 'react-toastify'
 import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
+import FormTermsAndCo from 'components/forms/formTermsAndCo/formTermsAndCo'
 
 interface specialRequestProps {
   visibile: boolean
@@ -140,6 +141,7 @@ export default function SpecialRequestPopup({
             onChange={onChange}
             required
           />
+          <FormTermsAndCo />
           <div className="form__button">
             <Button>Send</Button>
           </div>

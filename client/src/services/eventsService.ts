@@ -38,7 +38,7 @@ export const getUpcoming = async () => {
     const aEventDate = parseDateFromDDMMYYYY(a.fields.date as string)
     const bEventDate = parseDateFromDDMMYYYY(b.fields.date as string)
 
-    return aEventDate.getDate() - bEventDate.getDate()
+    return aEventDate.getTime() - bEventDate.getTime()
   })
 
   return events.items.map((item) => {

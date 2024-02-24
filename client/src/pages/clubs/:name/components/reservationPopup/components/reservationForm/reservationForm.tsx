@@ -18,6 +18,7 @@ import {
 } from 'services/formsService'
 import { toast } from 'react-toastify'
 import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
+import FormTermsAndCo from 'components/forms/formTermsAndCo/formTermsAndCo'
 
 export default function ReservationForm({
   club,
@@ -140,6 +141,7 @@ export default function ReservationForm({
         placeholder="Phone"
         required
       />
+      <FormTermsAndCo />
       <div className="form__button">
         <Button>Reserve Table</Button>
       </div>

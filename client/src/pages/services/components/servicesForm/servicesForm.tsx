@@ -7,6 +7,8 @@ import SectionTitle from 'components/ui/sectionTitle/sectionTitle'
 import { handleFormError, sendServicesForm } from 'services/formsService'
 import { toast } from 'react-toastify'
 import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
+import FormTermsAndCo from 'components/forms/formTermsAndCo/formTermsAndCo'
+import useServicesPage from 'hooks/usServicesPage'
 
 export default function ServicesForm() {
   const [loading, setLoading] = useState(false)
@@ -15,49 +17,22 @@ export default function ServicesForm() {
   const [email, setEmail] = useState('')
   const [details, setDetails] = useState('')
 
+  const pageData = useServicesPage()
+
+  if (pageData.loading) return <></>
+
   const categories = [
     {
       title: 'Music',
-      services: [
-        'DJ',
-        'Headling Artist',
-        'Bands',
-        'Sax',
-        'Percussion',
-        'Guitar',
-        'Violin',
-        'Trumpet / Thrombone',
-        'Keys & Vocals',
-        'Singer',
-        'Beatbox',
-      ],
+      services: pageData.data?.musicServices as string[],
     },
     {
       title: 'Performers',
-      services: [
-        'Acrobats',
-        'Fire',
-        'Dance',
-        'Contortion',
-        'Models',
-        'Stunt Performers',
-        'Pole',
-        'Photographers',
-        'Videographer',
-      ],
+      services: pageData.data?.performersServices as string[],
     },
     {
       title: 'Bespoke Events',
-      services: [
-        'Brand Activations',
-        'Product Launches',
-        'In-Store Events',
-        'In-Store Music',
-        'Company Parties',
-        'Award Ceremonies',
-        'Team Building',
-        'Office Parties',
-      ],
+      services: pageData.data?.eventsServices as string[],
     },
   ]
 
@@ -96,7 +71,7 @@ export default function ServicesForm() {
       <LoadingOverlay visible={loading} />
       <SectionTitle
         title="Request Service"
-        subtitle="Make your party stand out with us"
+        subtitle={pageData.data?.subtitle}
       />
       <div className="serviceForm__container">
         <div className="serviceForm__header">
@@ -161,6 +136,7 @@ export default function ServicesForm() {
               onChange={(e) => setDetails(e.target.value)}
               required
             />
+            <FormTermsAndCo />
           </div>
           <div>
             <Button>Send</Button>

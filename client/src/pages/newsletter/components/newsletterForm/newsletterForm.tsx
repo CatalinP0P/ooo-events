@@ -5,6 +5,7 @@ import React, { ChangeEventHandler, FormEventHandler, useState } from 'react'
 import './newsletterForm.Module.scss'
 import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
 import { toast } from 'react-toastify'
+import { newsletterFormProps, sendNewsletterForm } from 'services/formsService'
 
 export default function NewsletterForm() {
   const [loading, setLoading] = useState(false)
@@ -25,11 +26,16 @@ export default function NewsletterForm() {
     e.preventDefault()
     setLoading(true)
 
-    setTimeout(() => {
-      setLoading(false)
-      toast.success('Signed to newsletter')
-    }, 250)
+    sendNewsletterForm(formData as unknown as newsletterFormProps)
+      .then((response) => {
+        toast.success(response.data)
+      })
+      .catch((err) => {
+        toast.error(err.response.data)
+      })
+
     setFormData({ email: '', age: undefined, workDepartment: '' })
+    setLoading(false)
   }
 
   return (
