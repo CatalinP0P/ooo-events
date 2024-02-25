@@ -25,6 +25,61 @@ const isEmail = (str) => {
   return emailRegex.test(str)
 }
 
+app.post('/forms/reserveTable', async (req, res) => {
+  const {
+    male,
+    female,
+    date,
+    name,
+    spendingAmount,
+    email,
+    phone,
+    age,
+    location,
+  } = req.body
+
+  if (age < 18) return res.status(400).send('You must be over 18')
+  if (!isEmail(email))
+    return res.status(400).send('Email provided is not valid')
+  if (!isUpcomingDate(new Date(date)))
+    return res.status(400).send('Date is not valid')
+
+  const subject = `OOOEvents - Table Reservation Request from ${name}`
+
+  const text = `
+    You have received a new Table Reservation Request at ${location.name}, ${location.address}, ${location.postcode}
+
+    Information
+    Date: ${formatDateToDDMMYYYY(new Date(date))}
+    Name: ${name}
+    For: ${female} Female(s), ${male} Male(s)
+    Email: ${email}
+    Phone: ${phone}
+    Spending Amoung: ${spendingAmount || 'Undefined'}
+  `
+
+  const replySubject = `OOOEvents - Table Reservation Confirmation`
+  const replyText = `
+  Table Reservation Confirmation at ${location.name}, ${location.address}, ${location.postcode}
+
+  Information
+  Date: ${formatDateToDDMMYYYY(new Date(date))}
+  Name: ${name}
+  For: ${female} Female(s), ${male} Male(s)
+  Email: ${email}
+  Phone: ${phone}
+  Spending Amoung: ${spendingAmount || 'Undefined'}
+`
+
+  try {
+    sendMail(MAIL_USER, subject, text)
+    sendMail(email, replySubject, replyText)
+    res.send('Table Reserved!')
+  } catch {
+    res.status(400).send('Some error occured, try again later.')
+  }
+})
+
 app.post('/forms/guestList', async (req, res) => {
   const { club, male, female, date, email, phone, name, age, workDepartment } =
     req.body
