@@ -19,11 +19,12 @@ import {
 import { toast } from 'react-toastify'
 import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
 import FormTermsAndCo from 'components/forms/formTermsAndCo/formTermsAndCo'
+import { EventProps } from 'types/event'
 
 export default function ReservationForm({
   club,
 }: {
-  club: ClubProps | RestaurantProps
+  club: ClubProps | RestaurantProps | EventProps
 }) {
   const [loading, setLoading] = useState(false)
   const [male, setMale] = useState(2)
@@ -32,7 +33,12 @@ export default function ReservationForm({
   const defaultData = {
     male: 2,
     female: 2,
-    spendingAmount: club.minimumSpending != null ? 1000 : null,
+    spendingAmount:
+      'minimumSpending' in club
+        ? club.minimumSpending != null
+          ? 1000
+          : null
+        : null,
     date: formatDateToYYYYMMDD(new Date()),
     name: '',
     age: undefined,
@@ -81,7 +87,7 @@ export default function ReservationForm({
         setFemale={setFemale}
         setMale={setMale}
       />
-      {formData.spendingAmount != null && (
+      {'minimumSpending' in club && formData.spendingAmount != null && (
         <FormInput
           name="spendingAmount"
           title={'£' + club?.minimumSpending + ' Minimum Spent'}

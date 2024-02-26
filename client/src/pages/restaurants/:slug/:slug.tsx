@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import ContentfulRichText from 'components/ui/richTextBox/richTextBox'
 import './:slug.Module.scss'
 import useRestaurant from 'hooks/useRestaurant'
-import ReservationPopup from 'pages/clubs/:name/components/reservationPopup/reservationPopup'
+// import ReservationPopup from 'pages/clubs/:name/components/reservationPopup/reservationPopup'
 import { RestaurantProps } from 'types/restaurant'
 import Button from 'components/ui/button/button'
 import SpecialRequestPopup from './components/specialRequestPopup/specialRequestPopup'
@@ -11,7 +11,7 @@ import SpecialRequestPopup from './components/specialRequestPopup/specialRequest
 export default function RestaurantsSlug() {
   const { slug } = useParams()
   const restaurant = useRestaurant(slug as string)
-  const [visibility, setVisibility] = useState(false)
+  // const [visibility, setVisibility] = useState(false)
   const [specialVisibility, setSpecialVisibility] = useState(false)
 
   return (
@@ -70,9 +70,9 @@ export default function RestaurantsSlug() {
                 >
                   Special Requests
                 </Button>
-                <Button onClick={() => setVisibility(true)}>
+                {/* <Button onClick={() => setVisibility(true)}>
                   Book a Table
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
@@ -84,13 +84,13 @@ export default function RestaurantsSlug() {
           </div>
         </div>
       </div>
-      {!restaurant.loading && (
+      {/* {!restaurant.loading && (
         <ReservationPopup
           club={restaurant.data as RestaurantProps}
           visibility={visibility}
           setVisibility={setVisibility}
         />
-      )}
+      )} */}
       {!restaurant.loading && (
         <SpecialRequestPopup
           visibile={specialVisibility}

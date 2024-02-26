@@ -6,11 +6,12 @@ import { CloseRounded } from '@mui/icons-material'
 import ReservationForm from './components/reservationForm/reservationForm'
 import { RestaurantProps } from 'types/restaurant'
 import Button from 'components/ui/button/button'
+import { EventProps } from 'types/event'
 
 interface reservationPopupProps {
   visibility: boolean
   setVisibility: Dispatch<SetStateAction<boolean>>
-  club: ClubProps | RestaurantProps
+  club: ClubProps | RestaurantProps | EventProps
   plus18?: boolean
 }
 

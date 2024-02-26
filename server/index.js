@@ -47,7 +47,7 @@ app.post('/forms/reserveTable', async (req, res) => {
   const subject = `OOOEvents - Table Reservation Request from ${name}`
 
   const text = `
-    You have received a new Table Reservation Request at ${location.name}, ${location.address}, ${location.postcode}
+    You have received a new Table Reservation Request at ${location.name ? location.name : location.title}, ${location.address || ''}, ${location.postcode || ''}
 
     Information
     Date: ${formatDateToDDMMYYYY(new Date(date))}
@@ -59,8 +59,9 @@ app.post('/forms/reserveTable', async (req, res) => {
   `
 
   const replySubject = `OOOEvents - Table Reservation Confirmation`
+
   const replyText = `
-  Table Reservation Confirmation at ${location.name}, ${location.address}, ${location.postcode}
+  Table Reservation Confirmation at ${location.name ? location.name : location.title}, ${location.address || ''}, ${location.postcode || ''}
 
   Information
   Date: ${formatDateToDDMMYYYY(new Date(date))}
@@ -92,7 +93,7 @@ app.post('/forms/guestList', async (req, res) => {
 
   try {
     const subject = `OOOEvents - Guest List Request from ${name}`
-    const text = `You have received a new Guest List Request at ${club.name}, ${club.address}, ${club.postcode}
+    const text = `You have received a new Guest List Request at ${club.name != undefined ? club.name : club.title}, ${club.address != undefined ? club.address : ''}, ${club.postcode != undefined ? club.postcode : ''}
 
   Information
   Date: ${formatDateToDDMMYYYY(new Date(date))}
@@ -106,7 +107,7 @@ app.post('/forms/guestList', async (req, res) => {
 
     const replySubject = `OOOEvents - Guest List Confirmation`
     const replyText = `
-  Guest List Confirmation at ${club.name}, ${club.address}, ${club.postcode}
+  Guest List Confirmation at ${club.name || club.title}, ${club.address || ''}, ${club.postcode | ''}
 
   Information
   Date: ${formatDateToDDMMYYYY(new Date(date))}

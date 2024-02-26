@@ -22,11 +22,12 @@ import { formatDateToYYYYMMDD } from 'func/formatDateToYYYYMMDD'
 import { toast } from 'react-toastify'
 import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
 import FormTermsAndCo from 'components/forms/formTermsAndCo/formTermsAndCo'
+import { EventProps } from 'types/event'
 
 interface guestListProps {
   visibility: boolean
   setVisibility: Dispatch<SetStateAction<boolean>>
-  club: ClubProps
+  club: ClubProps | EventProps
 }
 
 export default function GuestListPopup({

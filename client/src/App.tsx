@@ -16,6 +16,7 @@ import Newsletter from 'pages/newsletter/newsletter'
 import Ambassadors from 'pages/ambassadors/ambassadors'
 import TermsAndConditions from 'pages/termsAndConditions/termsAndConditions'
 import PolicyPrivacy from 'pages/policyPrivacy/policyPrivacy'
+import EventsSlug from 'pages/events/:slug/:slug'
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/events/:slug" element={<EventsSlug />} />
           <Route path="/clubs" element={<Clubs />} />
           <Route path="/clubs/:name" element={<ClubsName />} />
           <Route path="/restaurants" element={<Restaurants />} />

@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify'
 import { ClubProps } from 'types/club'
+import { EventProps } from 'types/event'
 import { RestaurantProps } from 'types/restaurant'
 import api from 'utils/api'
 
@@ -25,7 +26,7 @@ export interface guestFormProps {
   name: ''
   email: ''
   phone: ''
-  club: ClubProps
+  club: ClubProps | EventProps
   age: number | undefined
   workDepartment: string
 }

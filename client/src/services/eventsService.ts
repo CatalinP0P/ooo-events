@@ -18,6 +18,25 @@ export const getAll = async () => {
   })
 }
 
+export const getBySlug = async (slug: string) => {
+  const events = await contentful.getEntries({
+    content_type: 'oooEvent',
+    'fields.slug': slug,
+  })
+
+  const response = events.items.map((item) => {
+    //eslint-disable-next-line
+    const image: any = item.fields.image
+
+    return {
+      ...item.fields,
+      image: 'https:' + image.fields.file.url,
+    } as EventProps
+  })
+
+  return response[0]
+}
+
 export const getUpcoming = async () => {
   const events = await contentful.getEntries({
     content_type: 'oooEvent',
@@ -55,4 +74,5 @@ export const getUpcoming = async () => {
 export default {
   getAll,
   getUpcoming,
+  getBySlug,
 }

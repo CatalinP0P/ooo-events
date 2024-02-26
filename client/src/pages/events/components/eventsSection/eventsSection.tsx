@@ -3,9 +3,11 @@ import React, { useEffect } from 'react'
 import { EventProps } from 'types/event'
 import './eventsSection.Module.scss'
 import Button from 'components/ui/button/button'
+import { useNavigate } from 'react-router-dom'
 
 export default function EventsSection() {
   const upcomingEvents = useUpcomingEvents()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (upcomingEvents.loading) return
@@ -18,7 +20,11 @@ export default function EventsSection() {
       <div className="events__container">
         {upcomingEvents.data?.map((event: EventProps) => {
           return (
-            <div className="events__item" key={event.slug}>
+            <div
+              className="events__item"
+              key={event.slug}
+              onClick={() => navigate('/events/' + event.slug)}
+            >
               <div className="item__header">
                 <div
                   className="item__image"
