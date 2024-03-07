@@ -73,12 +73,12 @@ export default function Footer() {
                   <Instagram fontSize="inherit" />
                 </a>
               )}
-              {data?.instagram != null && (
+              {data?.facebook != null && (
                 <a
                   className="item__social"
                   target="_blank"
                   rel="noreferrer"
-                  href={data.instagram}
+                  href={data.facebook}
                 >
                   <Facebook fontSize="inherit" />
                 </a>

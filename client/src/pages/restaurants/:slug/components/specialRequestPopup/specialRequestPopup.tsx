@@ -30,7 +30,7 @@ export default function SpecialRequestPopup({
   setVisible,
 }: specialRequestProps) {
   const [loading, setLoading] = useState(false)
-  const interestOptions = ['Guest List', 'Other...']
+  const interestOptions = ['Private Dining', 'Other...']
 
   const [interest, setInterest] = useState(interestOptions[0])
 

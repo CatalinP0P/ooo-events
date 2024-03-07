@@ -1,3 +1,4 @@
+import { peopleProps } from 'pages/clubs/:name/components/guestListPopup/guestListPopup'
 import { toast } from 'react-toastify'
 import { ClubProps } from 'types/club'
 import { EventProps } from 'types/event'
@@ -20,8 +21,7 @@ export const sendReservationForm = (data: reservationFormProps) => {
 }
 
 export interface guestFormProps {
-  male: number
-  female: number
+  people: peopleProps[]
   date: string
   name: ''
   email: ''

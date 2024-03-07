@@ -6,8 +6,10 @@ import './newsletterForm.Module.scss'
 import LoadingOverlay from 'components/ui/loadingOverlay/loadingOverlay'
 import { toast } from 'react-toastify'
 import { newsletterFormProps, sendNewsletterForm } from 'services/formsService'
+import useNewsletterPage from 'hooks/useNewsletterPage'
 
 export default function NewsletterForm() {
+  const pageData = useNewsletterPage()
   const [loading, setLoading] = useState(false)
 
   const [formData, setFormData] = useState({
@@ -43,7 +45,7 @@ export default function NewsletterForm() {
       <LoadingOverlay visible={loading} />
       <SectionTitle
         title="Join our Newsletter"
-        subtitle="Subscribe to our newsletter to stay up to date with the latest news and events in London"
+        subtitle={pageData?.data?.subtitle}
       />
       <div className="newsletterForm__container">
         <form className="form" onSubmit={onSubmit}>

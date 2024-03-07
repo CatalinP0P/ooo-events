@@ -4,6 +4,9 @@ export interface EventProps {
   url?: string
   image: string
   date: string
-  hour?: string
+  openHour?: string
+  closeHour?: string
   location: string
+  description: unknown
+  minimumSpending: number
 }

@@ -30,11 +30,12 @@
   }
 
   .clubCard__name {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     padding: 0 0.5rem;
     padding-top: 0.5rem;
-    padding-bottom: 0.75rem;
+    padding-bottom: 1rem;
+    text-align: center;
   }
 
   .clubCard__body {
@@ -52,10 +53,12 @@
       .item__key {
         opacity: 0.6;
         transform: translateY(10%);
+        font-size: 1rem;
       }
 
       .item__value {
         text-align: start;
+        font-size: 1rem;
       }
     }
   }

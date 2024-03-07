@@ -27,12 +27,12 @@ export default function ReservationForm({
   club: ClubProps | RestaurantProps | EventProps
 }) {
   const [loading, setLoading] = useState(false)
-  const [male, setMale] = useState(2)
-  const [female, setFemale] = useState(2)
+  const [male, setMale] = useState(0)
+  const [female, setFemale] = useState(0)
 
   const defaultData = {
-    male: 2,
-    female: 2,
+    male: 0,
+    female: 0,
     spendingAmount:
       'minimumSpending' in club
         ? club.minimumSpending != null

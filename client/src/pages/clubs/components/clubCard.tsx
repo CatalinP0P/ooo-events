@@ -34,13 +34,13 @@ export default function ClubCard({
         {' '}
         <div className="body__item">
           <label className="item__key">
-            <LocationCity />
+            <LocationCity fontSize="inherit" />
           </label>
           <label className="item__value">{club.location}</label>
         </div>
         <div className="body__item">
           <label className="item__key">
-            <LocationOn />
+            <LocationOn fontSize="inherit" />
           </label>
           <label className="item__value">
             {club.address}, {club.postcode}
@@ -48,7 +48,7 @@ export default function ClubCard({
         </div>
         <div className="body__item">
           <label className="item__key">
-            <QueryBuilder />
+            <QueryBuilder fontSize="inherit" />
           </label>
           <label className="item__value">
             {club.openHour || '??:??'} - {club.closeHour || '??:??'}

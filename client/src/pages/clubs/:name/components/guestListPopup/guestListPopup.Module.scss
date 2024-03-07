@@ -70,4 +70,51 @@
       font-weight: 700;
     }
   }
+
+  .people__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .people__title {
+      font-size: 1.5rem;
+      padding-top: 1rem;
+    }
+
+    .list__person {
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem;
+      background: $black-5;
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      justify-content: space-between;
+      align-items: center;
+
+      .person__delete {
+        transform: translateX(10%);
+      }
+    }
+
+    .new__person {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .new__person__form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+      }
+
+      .new__person__button {
+        padding: 0.5rem 1.5rem;
+        border: none;
+        color: $primary;
+        background-color: $black-10;
+        font-weight: 600;
+        border-radius: 0.5rem;
+      }
+    }
+  }
 }

@@ -40,10 +40,15 @@ export default function EventsSection() {
                 </label>
                 <label className="item__value">
                   <span className="key">Opening Time</span>{' '}
-                  <span>{event.hour}</span>
+                  <span>
+                    {event.openHour || '??:??'} - {event.closeHour || '??:??'}
+                  </span>
                 </label>
               </div>
-              <Button rounded={false} onClick={() => window.open(event.url)}>
+              <Button
+                rounded={false}
+                onClick={() => navigate('/events/' + event.slug)}
+              >
                 Book Now
               </Button>
             </div>

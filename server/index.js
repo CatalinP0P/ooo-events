@@ -82,7 +82,7 @@ app.post('/forms/reserveTable', async (req, res) => {
 })
 
 app.post('/forms/guestList', async (req, res) => {
-  const { club, male, female, date, email, phone, name, age, workDepartment } =
+  const { club, people, date, email, phone, name, age, workDepartment } =
     req.body
 
   if (!isEmail(email))
@@ -100,7 +100,7 @@ app.post('/forms/guestList', async (req, res) => {
   Name: ${name}
   Age: ${age}
   Work Department: ${workDepartment}
-  For: ${female} Female(s), ${male} Male(s)
+  Friends: ${people.map((person) => `\n ${person.name} - ${person.age}`)}
   Email: ${email}
   Phone: ${phone}
   `
@@ -114,7 +114,7 @@ app.post('/forms/guestList', async (req, res) => {
   Name: ${name}
   Age: ${age}
   Work Department: ${workDepartment}
-  For: ${female} Female(s), ${male} Male(s)
+  Friends: ${people.map((person) => `\n ${person.name} - ${person.age}`)}
   Email: ${email}
   Phone: ${phone}
 `

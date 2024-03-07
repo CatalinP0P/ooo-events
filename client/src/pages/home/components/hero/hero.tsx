@@ -9,10 +9,12 @@ import {
 } from '@mui/icons-material'
 import usePastEvents from 'hooks/usePastEvents'
 import { EventProps } from 'types/event'
+import { useNavigate } from 'react-router-dom'
 
 export default function Hero() {
   const upcomingEvents = useUpcomingEvents()
   const pastEvents = usePastEvents()
+  const navigate = useNavigate()
 
   const [events, setEvents] = useState<EventProps[]>([])
 
@@ -94,16 +96,22 @@ export default function Hero() {
         <div>
           <Button
             buttonStyle={ButtonStyles.Primary}
-            onClick={() =>
+            onClick={() => {
+              if (
+                eventIndex >= (pastEvents.data ? pastEvents.data.length : 0)
+              ) {
+                return navigate('/events/' + events[eventIndex].slug)
+              }
+
               window.open(
                 eventIndex >= (pastEvents.data ? pastEvents.data.length : 0)
                   ? events[eventIndex].url
                   : events[eventIndex].image,
               )
-            }
+            }}
           >
             {eventIndex >= (pastEvents.data ? pastEvents.data.length : 0) &&
-              'Buy Ticket'}
+              'Book Now'}
 
             {eventIndex < (pastEvents.data ? pastEvents.data.length : 0) &&
               'See Photos'}

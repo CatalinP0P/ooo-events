@@ -10,8 +10,7 @@ import React, {
 } from 'react'
 import { ClubProps } from 'types/club'
 import './guestListPopup.Module.scss'
-import PeopleSelector from 'components/peopleSelector/peopleSelector'
-import { CloseRounded } from '@mui/icons-material'
+import { Close, CloseRounded } from '@mui/icons-material'
 import Button from 'components/ui/button/button'
 import {
   guestFormProps,
@@ -30,19 +29,30 @@ interface guestListProps {
   club: ClubProps | EventProps
 }
 
+export interface peopleProps {
+  name: string
+  age: number
+  id: number
+}
+
 export default function GuestListPopup({
   visibility,
   setVisibility,
   club,
 }: guestListProps) {
   const [loading, setLoading] = useState(false)
-  const [male, setMale] = useState(2)
-  const [female, setFemale] = useState(2)
+
+  const [newName, setNewName] = useState('')
+  const [newAge, setNewAge] = useState(18)
+
+  const [people, setPeople] = useState<peopleProps[]>([
+    { name: 'Catalin', age: 18, id: 1 },
+    { name: 'Dan', age: 18, id: 2 },
+  ])
 
   const [formData, setFormData] = useState<guestFormProps>({
     name: '',
-    male,
-    female,
+    people: people,
     date: formatDateToYYYYMMDD(new Date()),
     email: '',
     phone: '',
@@ -52,10 +62,8 @@ export default function GuestListPopup({
   })
 
   useEffect(() => {
-    setFormData((old) => {
-      return { ...old, male, female }
-    })
-  }, [male, female])
+    setFormData({ ...formData, people })
+  }, [people])
 
   const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (
     e,
@@ -69,6 +77,8 @@ export default function GuestListPopup({
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
+
+    console.log(formData)
     setLoading(true)
 
     sendGuestListForm(formData)
@@ -93,12 +103,6 @@ export default function GuestListPopup({
           </div>
         </div>
         <form className="guestListPopup__form" onSubmit={onSubmit}>
-          <PeopleSelector
-            male={male}
-            female={female}
-            setMale={setMale}
-            setFemale={setFemale}
-          />
           <FormInput
             type="date"
             title="Date"
@@ -147,6 +151,49 @@ export default function GuestListPopup({
             onChange={onChange}
             required
           />
+
+          <div className="people__list">
+            <label className="people__title">Friends</label>
+            {people.map((person) => {
+              return (
+                <div className="list__person" key={Math.random() * 1000}>
+                  <label className="person__label">
+                    {person.name} - {person.age}
+                  </label>
+                  <div
+                    className="person__delete"
+                    onClick={() =>
+                      setPeople(people.filter((m) => m.id != person.id))
+                    }
+                  >
+                    <Close />
+                  </div>
+                </div>
+              )
+            })}
+            <div className="new__person">
+              <div className="new__person__form">
+                <FormInput title="Name" placeholder="Name" />
+                <FormInput title="Age" type="number" placeholder="Age" />
+              </div>
+              <button
+                className="new__person__button"
+                onClick={() => {
+                  if (newAge < 18) return toast.error('Must be over 18!')
+
+                  setPeople([
+                    ...people,
+                    { name: newName, age: newAge, id: Math.random() * 1000 },
+                  ])
+                  setNewName('')
+                  setNewAge(18)
+                }}
+                type="button"
+              >
+                Add Friend
+              </button>
+            </div>
+          </div>
 
           <FormTermsAndCo />
 
