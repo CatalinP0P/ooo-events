@@ -45,10 +45,7 @@ export default function GuestListPopup({
   const [newName, setNewName] = useState('')
   const [newAge, setNewAge] = useState(18)
 
-  const [people, setPeople] = useState<peopleProps[]>([
-    { name: 'Catalin', age: 18, id: 1 },
-    { name: 'Dan', age: 18, id: 2 },
-  ])
+  const [people, setPeople] = useState<peopleProps[]>([])
 
   const [formData, setFormData] = useState<guestFormProps>({
     name: '',
@@ -153,7 +150,7 @@ export default function GuestListPopup({
           />
 
           <div className="people__list">
-            <label className="people__title">Friends</label>
+            <label className="people__title">Add Friends</label>
             {people.map((person) => {
               return (
                 <div className="list__person" key={Math.random() * 1000}>
@@ -173,13 +170,25 @@ export default function GuestListPopup({
             })}
             <div className="new__person">
               <div className="new__person__form">
-                <FormInput title="Name" placeholder="Name" />
-                <FormInput title="Age" type="number" placeholder="Age" />
+                <FormInput
+                  title="Name"
+                  placeholder="Name"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                />
+                <FormInput
+                  title="Age"
+                  type="number"
+                  placeholder="Age"
+                  value={newAge}
+                  onChange={(e) => setNewAge(parseInt(e.target.value))}
+                />
               </div>
               <button
                 className="new__person__button"
                 onClick={() => {
                   if (newAge < 18) return toast.error('Must be over 18!')
+                  if (newName.trim() == '') return
 
                   setPeople([
                     ...people,

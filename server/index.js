@@ -1,12 +1,35 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import multer from 'multer'
 import formatDateToDDMMYYYY from './func/formatDateToDDMMYYYY.js'
-import { sendMail } from './utils/mail.js'
+import { sendMail, sendMailWithAttachment } from './utils/mail.js'
 import newsletterClientControllers from './controllers/newsletterClientControllers.js'
+import path from 'path'
 dotenv.config()
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
 const PORT = process.env.PORT
+
 const MAIL_USER = process.env.MAIL_USER
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/')
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`)
+  },
+})
+
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: Infinity,
+  },
+})
 
 const app = express()
 app.use(cors())
@@ -24,6 +47,8 @@ const isEmail = (str) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   return emailRegex.test(str)
 }
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.post('/forms/reserveTable', async (req, res) => {
   const {
@@ -417,10 +442,35 @@ app.post('/forms/newsletter', async (req, res) => {
       age,
       workDepartment,
     })
+    console.log('DONE')
     res.send('Signed to newsletter. Thank you!')
   } catch {
     res.status(400).send('Already signed to newsletter.')
   }
+})
+
+app.post(
+  '/newsletter/send',
+  upload.fields([{ name: 'files', maxCount: 5 }]),
+  async (req, res) => {
+    const { body, title } = req.body
+
+    const clients = await newsletterClientControllers.getAll()
+    console.log(req.files)
+
+    clients.forEach((client) => {
+      console.log('Sending mail to ' + client.email)
+      sendMailWithAttachment(client.email, title, body, req.files['files'])
+    })
+
+    res.sendStatus(200)
+  },
+)
+
+app.get('/newsletter', async (req, res) => {
+  const clients = await newsletterClientControllers.getAll()
+  console.log(clients)
+  res.json(clients)
 })
 
 app.listen(PORT, () => {

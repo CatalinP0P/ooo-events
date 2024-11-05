@@ -17,6 +17,7 @@ import Ambassadors from 'pages/ambassadors/ambassadors'
 import TermsAndConditions from 'pages/termsAndConditions/termsAndConditions'
 import PolicyPrivacy from 'pages/policyPrivacy/policyPrivacy'
 import EventsSlug from 'pages/events/:slug/:slug'
+import AdminNewsletter from 'pages/admin/newsletter/newsletters'
 
 export default function App() {
   return (
@@ -39,6 +40,9 @@ export default function App() {
           <Route path="/newsletter" element={<Newsletter />} />
           <Route path="/termsAndConditions" element={<TermsAndConditions />} />
           <Route path="/privacyPolicy" element={<PolicyPrivacy />} />
+
+          {/* Admin */}
+          <Route path="/admin/newsletter" element={<AdminNewsletter />} />
         </Routes>
       </Layout>
     </HashRouter>
