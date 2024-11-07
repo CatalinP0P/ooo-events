@@ -29,10 +29,6 @@ export default function Hero() {
     setEventIndex((pastEvents.data as EventProps[]).length)
   }, [pastEvents.loading, upcomingEvents.loading])
 
-  useEffect(() => {
-    console.log(events)
-  }, [events])
-
   const [eventIndex, setEventIndex] = useState(0)
 
   const prevEvent = () => {

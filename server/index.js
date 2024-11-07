@@ -9,6 +9,7 @@ import path from 'path'
 dotenv.config()
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
+import newsletterTemplateController from './controllers/newsletterTemplateController.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const PORT = process.env.PORT
@@ -442,7 +443,6 @@ app.post('/forms/newsletter', async (req, res) => {
       age,
       workDepartment,
     })
-    console.log('DONE')
     res.send('Signed to newsletter. Thank you!')
   } catch {
     res.status(400).send('Already signed to newsletter.')
@@ -456,7 +456,6 @@ app.post(
     const { body, title } = req.body
 
     const clients = await newsletterClientControllers.getAll()
-    console.log(req.files)
 
     clients.forEach((client) => {
       console.log('Sending mail to ' + client.email)
@@ -469,8 +468,35 @@ app.post(
 
 app.get('/newsletter', async (req, res) => {
   const clients = await newsletterClientControllers.getAll()
-  console.log(clients)
   res.json(clients)
+})
+
+app.post('/newsletter/edit', async (req, res) => {
+  const { password } = req.body
+  console.log(password)
+  if (password != '3jhk1348y123h') res.sendStatus(403)
+
+  const body = req.body
+  await newsletterTemplateController.edit(body)
+
+  res.json(body)
+})
+
+app.get('/newsletter/getTemplate', async (req, res) => {
+  const template = await newsletterTemplateController.get()
+  res.json(template)
+})
+
+app.get('/newsletter/unsubscribe/:email', async (req, res) => {
+  const { email } = req.params
+
+  try {
+    newsletterClientControllers.remove(email)
+    res.send('Unsubscribed from newsletter')
+  } catch (err) {
+    console.log(err)
+    res.sendStatus(400)
+  }
 })
 
 app.listen(PORT, () => {

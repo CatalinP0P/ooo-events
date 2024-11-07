@@ -11,8 +11,6 @@ export default function useUpcomingEvents() {
 
     setData(events)
     setLoading(false)
-
-    console.log(events)
   }
 
   useEffect(() => {

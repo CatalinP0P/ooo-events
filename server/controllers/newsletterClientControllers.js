@@ -8,7 +8,12 @@ export const getAll = async () => {
   return await NewsletterClient.find({})
 }
 
+export const remove = async (email) => {
+  return await NewsletterClient.deleteMany({ email })
+}
+
 export default {
   add,
   getAll,
+  remove,
 }

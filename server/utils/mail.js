@@ -41,6 +41,13 @@ export const sendMailWithAttachment = async (email, subject, text, files) => {
         attachments.push({ filename: name, content: fileBuffer })
       }
 
+    const unsubscribe_href = serverUrl + '/newsletter/unsubscribe/' + email
+
+    text += `
+
+For unsubscribing access the link below
+${unsubscribe_href}`
+
     // Set up the email options
     const mailOptions = {
       from: user,
