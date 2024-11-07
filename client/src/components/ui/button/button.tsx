@@ -21,7 +21,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      type={type || 'button'}
+      type={type || 'submit'}
       className={`button ${
         rounded ? 'button__rounded' : ''
       } button__${ButtonStyles[buttonStyle].toLowerCase()}`}
